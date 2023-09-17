@@ -13,6 +13,7 @@ TargetVersion = 5
 LogicFile     = SHCLogo,ExampleMod
 
 ```
+ALSO you can skip the splash screen by setting `skipSHCLogo` to Y in `modSettings.ini`
 # Original Authors
 - Graphics by MarkeyJester and mrcat-pixel (based on logo by Cinossu)
 - Implementation by SuperSonic16, LJSTAR, and rubberduckycooly
