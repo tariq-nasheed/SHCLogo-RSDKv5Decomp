@@ -45,7 +45,7 @@ bool32 LogoSetup_State_FadeToNextLogos_HOOK(bool32 skippedState) {
 	if (skippedState) return true;
 	RSDK_THIS(LogoSetup);
 
-	const int32 target = (!ModConfig.skipSHCLogo && ScreenInfo->position.y == SCREEN_YSIZE) ? 240 : 120;
+	const int32 target = (SHCLogo && !ModConfig.skipSHCLogo && ScreenInfo->position.y == SCREEN_YSIZE) ? 240 : 120;
 	if (++self->timer > target || (self->timer > 30 && ControllerInfo->keyStart.press)) {
 		self->timer     = 0;
 		self->state     = LogoSetup_State_NextLogos;
@@ -58,7 +58,7 @@ bool32 LogoSetup_State_ShowLogos_HOOK(bool32 skippedState) {
 	if (skippedState) return true;
 	RSDK_THIS(LogoSetup);
 
-	 if (!ModConfig.skipSHCLogo && self->timer <= 0) {
+	 if (SHCLogo && !ModConfig.skipSHCLogo && self->timer <= 0) {
 		if (ScreenInfo->position.y == SCREEN_YSIZE) {
 			RSDK.PlaySfx(SHCLogo->sfxSplash, 0, 0xFF);
 		}
@@ -78,13 +78,13 @@ bool32 LogoSetup_State_NextLogos_HOOK(bool32 skippedState) {
 			++SceneInfo->listPos;
 			RSDK.LoadScene();
 		} else {
-			ScreenInfo->position.y += (!ModConfig.skipSHCLogo) ? SCREEN_YSIZE : SCREEN_YSIZE * 2;
+			ScreenInfo->position.y += (SHCLogo && !ModConfig.skipSHCLogo) ? SCREEN_YSIZE : SCREEN_YSIZE * 2;
 			self->state     = LogoSetup_State_ShowLogos;
 			self->stateDraw = LogoSetup_Draw_Fade;
 			self->timer     = 0x400;
 		}
 	} else {
-		if (!ModConfig.skipSHCLogo && ScreenInfo->position.y == SCREEN_YSIZE) {
+		if (SHCLogo && !ModConfig.skipSHCLogo && ScreenInfo->position.y == SCREEN_YSIZE) {
 			foreach_active(SHCLogo, shcLogo) {
 				shcLogo->animator.speed   = 0;
 				shcLogo->animator.frameID = 0;
